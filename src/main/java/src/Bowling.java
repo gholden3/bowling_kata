@@ -1,53 +1,37 @@
 package main.java.src;
 
 public class Bowling {
-  private int numberOfRolls = 0;
-  private int[] rolls = new int[21];
+  private int n = 0;
+  private int[] r = new int[21];
 
-  public void roll(int pins) {
-    rolls[numberOfRolls] = pins;
-    numberOfRolls++;
+  public void roll(int p) {
+    r[n] = p;
+    n++;
   }
 
   public int getScore() {
-    int score = 0;
+    int s = 0;
     int i = 0;
-    while (i < numberOfRolls ) {
-      int frameScore = 0;
-      boolean strike = (rolls[i] == 10);
-      boolean spare = (getFrameScore(i) == 10);
+    while (i < n ) {
+      int tempScore = 0;
+      boolean strike = (r[i] == 10);
+      boolean spare = (r[i] + r[i + 1] == 10);
 
-      if (strike) {
-        frameScore = getStrikeOrSpareFrameScore(i);
+      if (str) {
+        tempScore = r[i] + r[i + 1] + r[i + 2];
         i++;
-      } else if (spare) {
-        frameScore = getStrikeOrSpareFrameScore(i);
+      } else if (sp) {
+        tempScore = r[i] + r[i + 1] + r[i + 2];
         i += 2;
       } else {
-        frameScore = getFrameScore(i);
+        tempScore = r[i] + r[i + 1];
         i += 2;
       }
-      score += frameScore;
-      if (shouldStopScoring(i, strike, spare)) {
+      s += tempScore;
+      if (str && (i == n - 2) ||  (sp && (i == n - 1))) {
         break;
       }
     }
-    return score;
-  }
-
-  private boolean shouldStopScoring(int i, boolean strike, boolean spare) {
-    if (strike && (i == numberOfRolls - 2))
-      return true;
-    if (spare && (i == numberOfRolls - 1))
-      return true;
-    return false;
-  }
-
-  private int getFrameScore(int i) {
-    return rolls[i] + rolls[i + 1];
-  }
-
-  private int getStrikeOrSpareFrameScore(int i) {
-    return rolls[i] + rolls[i + 1] + rolls[i + 2];
+    return s;
   }
 }
